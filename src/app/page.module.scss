@@ -1,0 +1,37 @@
+$subduedGreen: #f2fcf3;
+$green: #27cf2f;
+$darkenedGreen: #167a20;
+
+.heading {
+    text-align: center;
+}
+
+.subheading {
+    text-align: center;
+    font-weight: normal;
+}
+
+.gameButton {
+    margin-top: 3em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+    background-color: $subduedGreen;
+    border-color: black;
+    border-radius: 5em;
+
+    min-width: 25%;
+    padding: 1em 2em;
+    text-align: center;
+    text-decoration: none;
+    
+    &:hover {
+        background-color: $green;
+    }
+
+    &:active {
+        background-color: $darkenedGreen;
+        color: white;
+    }
+}
