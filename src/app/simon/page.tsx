@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import styles from "./simon.module.scss";
 import clsx from "clsx";
@@ -9,7 +9,7 @@ export default function Simon() {
   const [currentLevel, setCurrentLevel] = useState(1);
   const [status, setStatus] = useState(`Level ${currentLevel} - Ready?`);
 
-  const [pattern, setPattern] = useState([2, 1, 0, 3, 0]);
+  const [pattern, setPattern] = useState<number[]>([2, 3, 0, 1]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
   const [acceptingInput, setAcceptingInput] = useState(false);
@@ -22,6 +22,7 @@ export default function Simon() {
         return null;
       }
 
+      console.log(oldIndex, pattern.length - 1);
       if (oldIndex >= pattern.length - 1) {
         setStatus(`Level ${currentLevel} - Your turn!`);
         setAcceptingInput(true);
@@ -36,16 +37,21 @@ export default function Simon() {
   };
 
   const startPattern = () => {
-    if (pattern && pattern.length > 0) {
-      setCurrentIndex(0);
-      setStatus(`Level ${currentLevel} - Watch and learn!`);
+    // Chooses a pattern
+    const pattern: number[] = [];
 
-      const interval = setInterval(() => {
-        nextTileInPattern(interval);
-      }, 400);
-    } else {
-      console.log("Cannot start empty pattern.");
+    // Plus three because level 1 starts at a pattern of length 4.
+    for (let i = 0; i < currentLevel + 3; i++) {
+      pattern.push(Math.floor(Math.random() * 4));
     }
+
+    // setPattern(pattern);
+    setStatus(`Level ${currentLevel} - Watch and learn!`);
+    setCurrentIndex(0);
+
+    const interval = setInterval(() => {
+      nextTileInPattern(interval);
+    }, 400);
   };
 
   const userTileClick = (tile: number) => {
@@ -53,18 +59,19 @@ export default function Simon() {
       const newPattern = [...oldInputPattern, tile];
 
       if (!compareArrays(pattern.slice(0, newPattern.length), newPattern)) {
+        console.log("LOSE");
         setAcceptingInput(false);
         return newPattern;
       }
 
       if (newPattern.length == pattern.length) {
+        console.log("WIN");
+
         setAcceptingInput(false);
         setCurrentLevel((oldLevel) => {
           setStatus(`Level ${oldLevel + 1} - Ready?`);
           return oldLevel + 1;
         });
-
-        // TODO: Choose new pattern
 
         return newPattern;
       }
