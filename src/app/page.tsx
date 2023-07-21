@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import styles from "./page.module.scss";
+import styles from "./index.module.scss";
 
 export default function Index() {
     return (
@@ -9,11 +9,11 @@ export default function Index() {
                 <title>Minigames</title>
             </Head>
 
-            <h1 className={styles.heading}>Minigames</h1>
-            <h3 className={styles.subheading}>What would you like to play?</h3>
+            <h1>Minigames</h1>
+            <h3>What would you like to play?</h3>
 
-            <Link href="/">
-                <button className={styles.gameButton}>Simon</button>
+            <Link href="/simon">
+                <button>Simon</button>
             </Link>
         </main>
     );

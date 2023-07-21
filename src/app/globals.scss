@@ -1,9 +1,9 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -93,5 +93,44 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+h1 {
+  text-align: center;
+  margin-top: 3em;
+}
+
+h3 {
+  text-align: center;
+  font-weight: normal;
+}
+
+$subduedGreen: #f2fcf3;
+$green: #27cf2f;
+$darkenedGreen: #167a20;
+
+button {
+  margin-top: 3em;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+
+  background-color: $subduedGreen;
+  border-color: black;
+  border-radius: 5em;
+
+  min-width: 25%;
+  padding: 1em 2em;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $green;
+  }
+
+  &:active {
+    background-color: $darkenedGreen;
+    color: white;
   }
 }
