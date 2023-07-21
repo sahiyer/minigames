@@ -92,7 +92,8 @@ export default function Simon() {
               colour,
               currentIndex != null && pattern[currentIndex] == index
                 ? ""
-                : styles.subdued
+                : styles.subdued,
+              acceptingInput ? styles.clickable : ""
             )}
           ></div>
         ))}

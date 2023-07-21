@@ -43,6 +43,6 @@ $blue: #2181ff;
   background-color: $blue;
 }
 
-.subdued {
+.subdued:not(.clickable:active) {
   filter: brightness(40%);
 }
