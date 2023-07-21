@@ -9,32 +9,50 @@ export default function Simon() {
   const [currentLevel, setCurrentLevel] = useState(1);
   const [status, setStatus] = useState(`Level ${currentLevel} - Ready?`);
 
-  const [pattern, setPattern] = useState<number[]>([2, 3, 0, 1]);
+  const [pattern, setPattern] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
   const [acceptingInput, setAcceptingInput] = useState(false);
   const [userInputPattern, setUserInputPattern] = useState<number[]>([]);
 
-  const nextTileInPattern = (interval: NodeJS.Timer) => {
-    setCurrentIndex((oldIndex) => {
-      if (oldIndex == null) {
-        clearInterval(interval);
-        return null;
+  const nextTileInPattern = useCallback(
+    (interval: NodeJS.Timer) => {
+      if (interval == null) {
+        // Should never happen.
+        console.log("Interval was null.");
+        return;
       }
 
-      console.log(oldIndex, pattern.length - 1);
-      if (oldIndex >= pattern.length - 1) {
-        setStatus(`Level ${currentLevel} - Your turn!`);
-        setAcceptingInput(true);
-        setUserInputPattern([]);
+      setCurrentIndex((oldIndex) => {
+        if (oldIndex == null) {
+          clearInterval(interval);
 
-        clearInterval(interval);
-        return null;
-      }
+          return null;
+        }
 
-      return oldIndex + 1;
-    });
-  };
+        if (oldIndex >= pattern.length - 1) {
+          setStatus(`Level ${currentLevel} - Your turn!`);
+          setAcceptingInput(true);
+          setUserInputPattern([]);
+
+          clearInterval(interval);
+          return null;
+        }
+
+        return oldIndex + 1;
+      });
+    },
+    [currentLevel, pattern]
+  );
+
+  useEffect(() => {
+    // TODO: If the start button is clicked before this is cleared the
+    // TODO: first time during initialisation, it will break as the
+    // TODO: actual timer we want is cleared.
+    const interval = setInterval(() => {
+      nextTileInPattern(interval);
+    }, 400);
+  }, [nextTileInPattern]);
 
   const startPattern = () => {
     // Chooses a pattern
@@ -45,13 +63,9 @@ export default function Simon() {
       pattern.push(Math.floor(Math.random() * 4));
     }
 
-    // setPattern(pattern);
+    setPattern(pattern);
     setStatus(`Level ${currentLevel} - Watch and learn!`);
     setCurrentIndex(0);
-
-    const interval = setInterval(() => {
-      nextTileInPattern(interval);
-    }, 400);
   };
 
   const userTileClick = (tile: number) => {
