@@ -11,6 +11,7 @@ export default function Simon() {
 
   const [pattern, setPattern] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+  const [shouldHighlight, setShouldHighlight] = useState(false);
 
   const [acceptingInput, setAcceptingInput] = useState(false);
   const [userInputPattern, setUserInputPattern] = useState<number[]>([]);
@@ -24,6 +25,8 @@ export default function Simon() {
       }
 
       setCurrentIndex((oldIndex) => {
+        console.log(oldIndex);
+
         if (oldIndex == null) {
           clearInterval(interval);
 
@@ -39,6 +42,12 @@ export default function Simon() {
           return null;
         }
 
+        // Highlights the next tile, but stops after a certain amount of time.
+        setShouldHighlight(true);
+        setTimeout(() => {
+          setShouldHighlight(false);
+        }, 300);
+
         return oldIndex + 1;
       });
     },
@@ -52,6 +61,8 @@ export default function Simon() {
     const interval = setInterval(() => {
       nextTileInPattern(interval);
     }, 400);
+
+    nextTileInPattern(interval);
   }, [nextTileInPattern]);
 
   const startPattern = () => {
@@ -65,7 +76,7 @@ export default function Simon() {
 
     setPattern(pattern);
     setStatus(`Level ${currentLevel} - Watch and learn!`);
-    setCurrentIndex(0);
+    setCurrentIndex(-1); // We call nextTileInPattern immediately, which will set this to 0.
   };
 
   const userTileClick = (tile: number) => {
@@ -111,7 +122,9 @@ export default function Simon() {
             className={clsx(
               styles.gameTile,
               colour,
-              currentIndex != null && pattern[currentIndex] == index
+              currentIndex != null &&
+                pattern[currentIndex] == index &&
+                shouldHighlight
                 ? ""
                 : styles.subdued,
               acceptingInput ? styles.clickable : ""
