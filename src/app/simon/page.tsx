@@ -94,7 +94,22 @@ export default function Simon() {
 
         setAcceptingInput(false);
         setCurrentLevel((oldLevel) => {
-          setStatus(`Level ${oldLevel + 1} - Ready?`);
+          const winStatuses = [
+            "Excellent!",
+            "WOW!",
+            "You got it!",
+            "That's right!",
+            "Nothing can stop you!",
+          ];
+
+          setStatus(
+            winStatuses[Math.floor(Math.random() * winStatuses.length)]
+          );
+
+          setTimeout(() => {
+            setStatus(`Level ${oldLevel + 1} - Ready?`);
+          }, 800);
+
           return oldLevel + 1;
         });
 
