@@ -12,9 +12,11 @@ export default function Simon() {
   const [pattern, setPattern] = useState<number[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [shouldHighlight, setShouldHighlight] = useState(false);
+  const [animatingTiles, setAnimatingTiles] = useState(false);
 
   const [acceptingInput, setAcceptingInput] = useState(false);
   const [userInputPattern, setUserInputPattern] = useState<number[]>([]);
+  const [canStartRound, setCanStartRound] = useState(true);
 
   const nextTileInPattern = useCallback(
     (interval: NodeJS.Timer) => {
@@ -86,6 +88,8 @@ export default function Simon() {
       if (!compareArrays(pattern.slice(0, newPattern.length), newPattern)) {
         console.log("LOSE");
         setAcceptingInput(false);
+        setCanStartRound(false);
+
         return newPattern;
       }
 
@@ -93,6 +97,8 @@ export default function Simon() {
         console.log("WIN");
 
         setAcceptingInput(false);
+        setCanStartRound(false);
+
         setCurrentLevel((oldLevel) => {
           const winStatuses = [
             "Excellent!",
@@ -106,9 +112,23 @@ export default function Simon() {
             winStatuses[Math.floor(Math.random() * winStatuses.length)]
           );
 
-          setTimeout(() => {
-            setStatus(`Level ${oldLevel + 1} - Ready?`);
-          }, 800);
+          setAnimatingTiles(true);
+          setShouldHighlight(true);
+
+          let count = 0;
+          const interval = setInterval(() => {
+            count += 1;
+
+            if (count >= 6) {
+              setAnimatingTiles(false);
+              setStatus(`Level ${oldLevel + 1} - Ready?`);
+              setCanStartRound(true);
+
+              clearInterval(interval);
+            }
+
+            setShouldHighlight((oldShouldHighlight) => !oldShouldHighlight);
+          }, 150);
 
           return oldLevel + 1;
         });
@@ -127,7 +147,9 @@ export default function Simon() {
       <h1>Simon</h1>
       <h3>{status}</h3>
 
-      <button onClick={startPattern}>Start</button>
+      <button onClick={startPattern} disabled={!canStartRound}>
+        Start
+      </button>
 
       <div className={styles.gameGrid}>
         {colours.map((colour, index) => (
@@ -137,9 +159,10 @@ export default function Simon() {
             className={clsx(
               styles.gameTile,
               colour,
-              currentIndex != null &&
+              (currentIndex != null &&
                 pattern[currentIndex] == index &&
-                shouldHighlight
+                shouldHighlight) ||
+                (animatingTiles && shouldHighlight)
                 ? ""
                 : styles.subdued,
               acceptingInput ? styles.clickable : ""
