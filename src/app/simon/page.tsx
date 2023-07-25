@@ -13,6 +13,7 @@ export default function Simon() {
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [shouldHighlight, setShouldHighlight] = useState(false);
   const [animatingTiles, setAnimatingTiles] = useState(false);
+  const [loseAnimationBrightness, setLoseAnimationBrightness] = useState(100);
 
   const [acceptingInput, setAcceptingInput] = useState(false);
   const [userInputPattern, setUserInputPattern] = useState<number[]>([]);
@@ -27,8 +28,6 @@ export default function Simon() {
       }
 
       setCurrentIndex((oldIndex) => {
-        console.log(oldIndex);
-
         if (oldIndex == null) {
           clearInterval(interval);
 
@@ -57,9 +56,6 @@ export default function Simon() {
   );
 
   useEffect(() => {
-    // TODO: If the start button is clicked before this is cleared the
-    // TODO: first time during initialisation, it will break as the
-    // TODO: actual timer we want is cleared.
     const interval = setInterval(() => {
       nextTileInPattern(interval);
     }, 400);
@@ -86,16 +82,44 @@ export default function Simon() {
       const newPattern = [...oldInputPattern, tile];
 
       if (!compareArrays(pattern.slice(0, newPattern.length), newPattern)) {
-        console.log("LOSE");
         setAcceptingInput(false);
         setCanStartRound(false);
+        setCurrentLevel(1);
 
-        return newPattern;
-      }
+        const loseStatuses = [
+          "Not quite!",
+          "Unlucky!",
+          "Better luck next time!",
+          "Oops - you lost!",
+          "That's not it!",
+        ];
 
-      if (newPattern.length == pattern.length) {
-        console.log("WIN");
+        setStatus(
+          loseStatuses[Math.floor(Math.random() * loseStatuses.length)]
+        );
 
+        setAnimatingTiles(true);
+        setShouldHighlight(true);
+        setLoseAnimationBrightness(100);
+
+        const timeout = 10;
+        const animationTime = 1500;
+        const interval = setInterval(() => {
+          setLoseAnimationBrightness((oldBrightness) => {
+            if (oldBrightness <= 0) {
+              setAnimatingTiles(false);
+              setStatus("Level 1 - Ready?");
+              setCanStartRound(true);
+              setLoseAnimationBrightness(100);
+
+              clearInterval(interval);
+            }
+
+            const decrement = (timeout / animationTime) * 100; // Multiply by 100 to get percent.
+            return oldBrightness - decrement;
+          });
+        }, timeout);
+      } else if (newPattern.length == pattern.length) {
         setAcceptingInput(false);
         setCanStartRound(false);
 
@@ -128,12 +152,10 @@ export default function Simon() {
             }
 
             setShouldHighlight((oldShouldHighlight) => !oldShouldHighlight);
-          }, 150);
+          }, 200);
 
           return oldLevel + 1;
         });
-
-        return newPattern;
       }
 
       return newPattern;
@@ -167,6 +189,11 @@ export default function Simon() {
                 : styles.subdued,
               acceptingInput ? styles.clickable : ""
             )}
+            style={
+              animatingTiles && shouldHighlight
+                ? { filter: `brightness(${loseAnimationBrightness}%)` }
+                : {}
+            }
           ></div>
         ))}
       </div>
