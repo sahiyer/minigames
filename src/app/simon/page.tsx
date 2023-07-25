@@ -19,6 +19,8 @@ export default function Simon() {
   const [userInputPattern, setUserInputPattern] = useState<number[]>([]);
   const [canStartRound, setCanStartRound] = useState(true);
 
+  const [bestLevel, setBestLevel] = useState(-1);
+
   const nextTileInPattern = useCallback(
     (interval: NodeJS.Timer) => {
       if (interval == null) {
@@ -154,6 +156,10 @@ export default function Simon() {
             setShouldHighlight((oldShouldHighlight) => !oldShouldHighlight);
           }, 200);
 
+          if (oldLevel > bestLevel) {
+            setBestLevel(oldLevel);
+          }
+
           return oldLevel + 1;
         });
       }
@@ -168,6 +174,7 @@ export default function Simon() {
     <>
       <h1>Simon</h1>
       <h3>{status}</h3>
+      {bestLevel != -1 && <h5>Best: Level {bestLevel}</h5>}
 
       <button onClick={startPattern} disabled={!canStartRound}>
         Start
