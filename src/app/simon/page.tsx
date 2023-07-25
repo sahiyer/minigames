@@ -174,7 +174,7 @@ export default function Simon() {
     <>
       <h1>Simon</h1>
       <h3>{status}</h3>
-      {bestLevel != -1 && <h5>Best: Level {bestLevel}</h5>}
+      <h5>Best: {bestLevel == -1 ? "None" : `Level ${bestLevel}`}</h5>
 
       <button onClick={startPattern} disabled={!canStartRound}>
         Start
