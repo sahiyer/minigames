@@ -1,5 +1,6 @@
 "use client";
 
+import GameGrid from "@/components/simon/GameGrid";
 import { useState } from "react";
 
 export default function Simon() {
@@ -30,6 +31,8 @@ export default function Simon() {
       <button onClick={playPattern} disabled={gameState != GameState.WaitingForStart}>
         Start
       </button>
+
+      <GameGrid></GameGrid>
     </>
   );
 }
