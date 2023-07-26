@@ -4,7 +4,7 @@ import { GameState } from "@/utility/simon/GameState";
 import { GameData } from "@/utility/simon/GameData";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const WIN_ANIMATION_TOTAL_TIME = 1000;
+const WIN_ANIMATION_TOTAL_TIME = 1250;
 const LOSE_ANIMATION_TOTAL_TIME = 1500;
 
 export default function GameTile({
@@ -117,7 +117,16 @@ function getBrightness(index: number, gameState: symbol, gameData: GameData) {
       return 1; // Will be subdued in CSS.
 
     case GameState.WinAnimation:
-      return 0.4;
+      const elapsed = WIN_ANIMATION_TOTAL_TIME - gameData.animationTimeLeft;
+      if (
+        (elapsed >= 0 && elapsed <= 250) ||
+        (elapsed >= 500 && elapsed <= 750) ||
+        (elapsed >= 1000 && elapsed <= 1250)
+      ) {
+        return 1;
+      } else {
+        return 0.4;
+      }
 
     case GameState.LoseAnimation:
       return (
