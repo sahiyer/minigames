@@ -2,7 +2,7 @@ import styles from "./GameTile.module.scss";
 import clsx from "clsx";
 import { GameState } from "@/utility/simon/GameState";
 import { GameData } from "@/utility/simon/GameData";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 const WIN_ANIMATION_TOTAL_TIME = 1500;
 const LOSE_ANIMATION_TOTAL_TIME = 1500;
