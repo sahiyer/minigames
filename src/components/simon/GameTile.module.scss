@@ -1,17 +1,17 @@
 .gameTile {
-  width: 20vh;
-  height: 20vh;
-  background-color: #333333;
+    width: 20vh;
+    height: 20vh;
+    background-color: #333333;
 
-  display: flex;
-  justify-content: center;
-  flex-basis: auto;
+    display: flex;
+    justify-content: center;
+    flex-basis: auto;
 }
 
 .clickable {
-  filter: brightness(0.4);
+    filter: brightness(0.4);
 }
 
 .clickable:active {
-  filter: brightness(1);
+    filter: brightness(1);
 }

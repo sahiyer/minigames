@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Simon",
-  description: "A game of Simon Says",
+    title: "Simon",
+    description: "A game of Simon Says",
 };
 
 export default function SimonLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+    return <section>{children}</section>;
 }

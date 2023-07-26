@@ -1,13 +1,13 @@
 export interface GameData {
-  currentLevel: number;
-  bestLevel: number;
-  statusIndex: number;
+    currentLevel: number;
+    bestLevel: number;
+    statusIndex: number;
 
-  pattern: number[];
-  patternIndex: number | null;
-  shouldHighlightInPattern: boolean;
+    pattern: number[];
+    patternIndex: number | null;
+    shouldHighlightInPattern: boolean;
 
-  userInputPattern: number[];
+    userInputPattern: number[];
 
-  animationTimeLeft: number;
+    animationTimeLeft: number;
 }
