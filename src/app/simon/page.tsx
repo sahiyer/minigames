@@ -3,7 +3,7 @@
 import GameGrid from "@/components/simon/GameGrid";
 import { GameData } from "@/utility/simon/GameData";
 import { GameState } from "@/utility/simon/GameState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Simon() {
   const [gameState, setGameState] = useState(GameState.WaitingForStart);
@@ -12,17 +12,50 @@ export default function Simon() {
     bestLevel: -1,
 
     pattern: new Array<number>(),
-    patternIndex: -1,
+    patternIndex: null,
+    shouldHighlightInPattern: false,
   });
+
+  const nextTileInPattern = (interval: NodeJS.Timer) => {
+    setGameData((oldData) => {
+      if (oldData.patternIndex == null) {
+        clearInterval(interval);
+        return oldData;
+      }
+
+      setTimeout(() => {
+        setGameData((oldData) => ({ ...oldData, shouldHighlightInPattern: false }));
+      }, TIME_PATTERN_TILE_SHOWN);
+
+      return {
+        ...oldData,
+
+        patternIndex: oldData.patternIndex + 1,
+        shouldHighlightInPattern: true,
+      };
+    });
+  };
 
   const playPattern = () => {
     setGameState(GameState.PlayingPattern);
     setGameData((oldData) => ({
       ...oldData,
+
       pattern: chooseRandomPattern(gameData),
-      patternIndex: 0,
+      patternIndex: -1, // We will call nextTileInPattern immediately (useEffect) to set this to 0.
+      shouldHighlightInPattern: false,
     }));
   };
+
+  useEffect(() => {
+    if (gameData.patternIndex == -1) {
+      const interval = setInterval(() => {
+        nextTileInPattern(interval);
+      }, TIME_PATTERN_TILE_SHOWN + TIME_PATTERN_TILE_BLANK);
+
+      nextTileInPattern(interval);
+    }
+  }, [gameData.patternIndex]);
 
   return (
     <>
@@ -38,6 +71,12 @@ export default function Simon() {
     </>
   );
 }
+
+// Each tile flashes on and off. TIME_PATTERN_TILE_SHOWN is the number of
+// milliseconds it stays alight. TIME_PATTERN_TILE_BLANK is the number of
+// milliseconds it pauses before the next tile.
+const TIME_PATTERN_TILE_SHOWN = 300;
+const TIME_PATTERN_TILE_BLANK = 100;
 
 function getStatus(gameState: symbol, gameData: { currentLevel: number }) {
   switch (gameState) {

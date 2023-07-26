@@ -28,7 +28,14 @@ function getBrightness(index: number, gameState: symbol, gameData: GameData) {
       return 0.4;
 
     case GameState.PlayingPattern:
-      return gameData.pattern[gameData.patternIndex] == index ? 1 : 0.4;
+      if (gameData.patternIndex == null) {
+        console.log("Error: Playing pattern with null index.");
+        return 1;
+      }
+
+      return gameData.shouldHighlightInPattern && gameData.pattern[gameData.patternIndex] == index
+        ? 1
+        : 0.4;
 
     case GameState.UserGuessing:
       return 0.4;
@@ -40,6 +47,6 @@ function getBrightness(index: number, gameState: symbol, gameData: GameData) {
       return 0.4;
   }
 
-  console.log("Incomplete switch.", gameState);
+  console.log("Error: Incomplete switch.", gameState);
   return 1;
 }

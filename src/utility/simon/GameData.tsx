@@ -3,5 +3,6 @@ export interface GameData {
   bestLevel: number;
 
   pattern: number[];
-  patternIndex: number;
+  patternIndex: number | null;
+  shouldHighlightInPattern: boolean;
 }
