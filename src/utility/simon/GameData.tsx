@@ -5,4 +5,6 @@ export interface GameData {
   pattern: number[];
   patternIndex: number | null;
   shouldHighlightInPattern: boolean;
+
+  userInputPattern: number[];
 }

@@ -14,6 +14,8 @@ export default function Simon() {
     pattern: new Array<number>(),
     patternIndex: null,
     shouldHighlightInPattern: false,
+
+    userInputPattern: new Array<number>(),
   });
 
   const nextTileInPattern = (interval: NodeJS.Timer) => {
@@ -21,6 +23,16 @@ export default function Simon() {
       if (oldData.patternIndex == null) {
         clearInterval(interval);
         return oldData;
+      }
+
+      if (oldData.patternIndex >= oldData.pattern.length - 1) {
+        clearInterval(interval);
+        setGameState(GameState.UserGuessing);
+
+        return {
+          ...oldData,
+          userInputPattern: new Array<number>(),
+        };
       }
 
       setTimeout(() => {
@@ -67,7 +79,12 @@ export default function Simon() {
         Start
       </button>
 
-      <GameGrid gameState={gameState} gameData={gameData}></GameGrid>
+      <GameGrid
+        gameState={gameState}
+        setGameState={setGameState}
+        gameData={gameData}
+        setGameData={setGameData}
+      ></GameGrid>
     </>
   );
 }

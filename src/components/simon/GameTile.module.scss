@@ -7,3 +7,11 @@
   justify-content: center;
   flex-basis: auto;
 }
+
+.clickable {
+  filter: brightness(0.4);
+}
+
+.clickable:active {
+  filter: brightness(1);
+}
