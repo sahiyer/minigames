@@ -22,6 +22,35 @@ export default function GameTile({
   gameData: GameData;
   setGameData: Dispatch<SetStateAction<GameData>>;
 }) {
+  const startAnimation = (win: boolean) => {
+    const TIME_PER_UPDATE = 10;
+    const interval = setInterval(() => {
+      setGameData((oldData) => {
+        const newData = {
+          ...oldData,
+          animationTimeLeft: oldData.animationTimeLeft - TIME_PER_UPDATE,
+        };
+
+        if (newData.animationTimeLeft <= 0) {
+          clearInterval(interval);
+          setGameState(GameState.WaitingForStart);
+
+          if (win) {
+            if (newData.currentLevel > newData.bestLevel) {
+              newData.bestLevel = newData.currentLevel;
+            }
+
+            newData.currentLevel += 1;
+          } else {
+            newData.currentLevel = 1;
+          }
+        }
+
+        return newData;
+      });
+    });
+  };
+
   const userClick = () => {
     setGameData((oldData) => {
       const newData = {
@@ -36,33 +65,14 @@ export default function GameTile({
         )
       ) {
         setGameState(GameState.LoseAnimation);
+
         newData.animationTimeLeft = LOSE_ANIMATION_TOTAL_TIME;
-
-        const TIME_PER_UPDATE = 10;
-        const interval = setInterval(() => {
-          setGameData((oldData) => {
-            const newData = {
-              ...oldData,
-              animationTimeLeft: oldData.animationTimeLeft - TIME_PER_UPDATE,
-            };
-
-            if (newData.animationTimeLeft <= 0) {
-              clearInterval(interval);
-              setGameState(GameState.WaitingForStart);
-
-              if (newData.currentLevel > newData.bestLevel) {
-                newData.bestLevel = newData.currentLevel;
-              }
-
-              newData.currentLevel = 1;
-            }
-
-            return newData;
-          });
-        });
+        startAnimation(false);
       } else if (newData.userInputPattern.length == newData.pattern.length) {
         setGameState(GameState.WinAnimation);
-        //startAnimation(WIN_ANIMATION_TOTAL_TIME);
+
+        newData.animationTimeLeft = WIN_ANIMATION_TOTAL_TIME;
+        startAnimation(true);
       }
 
       return newData;
