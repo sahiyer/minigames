@@ -5,17 +5,30 @@ import { GameData } from "@/utility/simon/GameData";
 import { GameState } from "@/utility/simon/GameState";
 import { useEffect, useState } from "react";
 
+const winStatuses = ["Excellent!", "WOW!", "You got it!", "That's right!", "Nothing can stop you!"];
+
+const loseStatuses = [
+  "Not quite!",
+  "Unlucky!",
+  "Better luck next time!",
+  "Oops - you lost!",
+  "That's not it!",
+];
+
 export default function Simon() {
   const [gameState, setGameState] = useState(GameState.WaitingForStart);
   const [gameData, setGameData] = useState<GameData>({
     currentLevel: 1,
     bestLevel: -1,
+    statusIndex: 0,
 
     pattern: new Array<number>(),
     patternIndex: null,
     shouldHighlightInPattern: false,
 
     userInputPattern: new Array<number>(),
+
+    animationTimeLeft: 0,
   });
 
   const nextTileInPattern = (interval: NodeJS.Timer) => {
@@ -69,6 +82,13 @@ export default function Simon() {
     }
   }, [gameData.patternIndex]);
 
+  useEffect(() => {
+    setGameData((oldData) => ({
+      ...oldData,
+      statusIndex: oldData.statusIndex + Math.floor(Math.random() * 3),
+    }));
+  }, [gameState]);
+
   return (
     <>
       <h1>Simon</h1>
@@ -95,7 +115,7 @@ export default function Simon() {
 const TIME_PATTERN_TILE_SHOWN = 300;
 const TIME_PATTERN_TILE_BLANK = 100;
 
-function getStatus(gameState: symbol, gameData: { currentLevel: number }) {
+function getStatus(gameState: symbol, gameData: GameData) {
   switch (gameState) {
     case GameState.WaitingForStart:
       return `Level ${gameData.currentLevel} - Ready?`;
@@ -107,26 +127,10 @@ function getStatus(gameState: symbol, gameData: { currentLevel: number }) {
       return `Level ${gameData.currentLevel} - Your turn!`;
 
     case GameState.WinAnimation:
-      const winStatuses = [
-        "Excellent!",
-        "WOW!",
-        "You got it!",
-        "That's right!",
-        "Nothing can stop you!",
-      ];
-
-      return winStatuses[Math.floor(Math.random() * winStatuses.length)];
+      return winStatuses[gameData.statusIndex % winStatuses.length];
 
     case GameState.LoseAnimation:
-      const loseStatuses = [
-        "Not quite!",
-        "Unlucky!",
-        "Better luck next time!",
-        "Oops - you lost!",
-        "That's not it!",
-      ];
-
-      return loseStatuses[Math.floor(Math.random() * loseStatuses.length)];
+      return loseStatuses[gameData.statusIndex % loseStatuses.length];
   }
 }
 

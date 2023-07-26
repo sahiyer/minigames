@@ -2,7 +2,10 @@ import styles from "./GameTile.module.scss";
 import clsx from "clsx";
 import { GameState } from "@/utility/simon/GameState";
 import { GameData } from "@/utility/simon/GameData";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+
+const WIN_ANIMATION_TOTAL_TIME = 1000;
+const LOSE_ANIMATION_TOTAL_TIME = 1500;
 
 export default function GameTile({
   index,
@@ -33,8 +36,33 @@ export default function GameTile({
         )
       ) {
         setGameState(GameState.LoseAnimation);
+        newData.animationTimeLeft = LOSE_ANIMATION_TOTAL_TIME;
+
+        const TIME_PER_UPDATE = 10;
+        const interval = setInterval(() => {
+          setGameData((oldData) => {
+            const newData = {
+              ...oldData,
+              animationTimeLeft: oldData.animationTimeLeft - TIME_PER_UPDATE,
+            };
+
+            if (newData.animationTimeLeft <= 0) {
+              clearInterval(interval);
+              setGameState(GameState.WaitingForStart);
+
+              if (newData.currentLevel > newData.bestLevel) {
+                newData.bestLevel = newData.currentLevel;
+              }
+
+              newData.currentLevel = 1;
+            }
+
+            return newData;
+          });
+        });
       } else if (newData.userInputPattern.length == newData.pattern.length) {
         setGameState(GameState.WinAnimation);
+        //startAnimation(WIN_ANIMATION_TOTAL_TIME);
       }
 
       return newData;
@@ -51,7 +79,9 @@ export default function GameTile({
       onClick={userClick}
       style={
         gameState != GameState.UserGuessing
-          ? { filter: `brightness(${getBrightness(index, gameState, gameData)})` }
+          ? {
+              filter: `brightness(${getBrightness(index, gameState, gameData)})`,
+            }
           : {}
       }
     ></div>
@@ -80,7 +110,9 @@ function getBrightness(index: number, gameState: symbol, gameData: GameData) {
       return 0.4;
 
     case GameState.LoseAnimation:
-      return 0.4;
+      return (
+        1 - (LOSE_ANIMATION_TOTAL_TIME - gameData.animationTimeLeft) / LOSE_ANIMATION_TOTAL_TIME
+      );
   }
 
   console.log("Error: Incomplete switch.", gameState);
