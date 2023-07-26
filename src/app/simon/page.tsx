@@ -1,11 +1,13 @@
 "use client";
 
 import GameGrid from "@/components/simon/GameGrid";
+import { GameData } from "@/utility/simon/GameData";
+import { GameState } from "@/utility/simon/GameState";
 import { useState } from "react";
 
 export default function Simon() {
   const [gameState, setGameState] = useState(GameState.WaitingForStart);
-  const [gameData, setGameData] = useState({
+  const [gameData, setGameData] = useState<GameData>({
     currentLevel: 1,
     bestLevel: -1,
 
@@ -32,18 +34,10 @@ export default function Simon() {
         Start
       </button>
 
-      <GameGrid></GameGrid>
+      <GameGrid gameState={gameState} gameData={gameData}></GameGrid>
     </>
   );
 }
-
-const GameState = {
-  WaitingForStart: Symbol("Waiting for start"),
-  PlayingPattern: Symbol("Playing pattern"),
-  UserGuessing: Symbol("User guessing"),
-  WinAnimation: Symbol("Win animation"),
-  LoseAnimation: Symbol("Lose animation"),
-};
 
 function getStatus(gameState: symbol, gameData: { currentLevel: number }) {
   switch (gameState) {
