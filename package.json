@@ -23,5 +23,10 @@
     },
     "prettier": {
         "tabWidth": 4
+    },
+    "devDependencies": {
+        "@deloitte-digital-au/eslint-config": "^3.4.2",
+        "@deloitte-digital-au/eslint-config-react": "^3.4.3",
+        "@deloitte-digital-au/stylelint-config": "^2.0.1"
     }
 }
