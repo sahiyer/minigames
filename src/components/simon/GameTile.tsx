@@ -4,7 +4,7 @@ import { GameState } from "@/utility/simon/GameState";
 import { GameData } from "@/utility/simon/GameData";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const WIN_ANIMATION_TOTAL_TIME = 1250;
+const WIN_ANIMATION_TOTAL_TIME = 1500;
 const LOSE_ANIMATION_TOTAL_TIME = 1500;
 
 export default function GameTile({
@@ -89,7 +89,7 @@ export default function GameTile({
                 colour,
                 gameState == GameState.UserGuessing ? styles.clickable : ""
             )}
-            onClick={userClick}
+            onClick={gameState == GameState.UserGuessing ? userClick : () => {}}
             style={
                 gameState != GameState.UserGuessing
                     ? {
