@@ -1,4 +1,4 @@
-export interface GameData {
+export interface SimonData {
     currentLevel: number;
     bestLevel: number;
     statusIndex: number;

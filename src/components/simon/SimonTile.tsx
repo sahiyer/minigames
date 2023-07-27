@@ -1,13 +1,13 @@
-import styles from "./GameTile.module.scss";
+import styles from "./SimonTile.module.scss";
 import clsx from "clsx";
-import { GameState } from "@/utility/simon/GameState";
-import { GameData } from "@/utility/simon/GameData";
+import { SimonState } from "@/utility/simon/SimonState";
+import { SimonData } from "@/utility/simon/SimonData";
 import { Dispatch, SetStateAction } from "react";
 
 const WIN_ANIMATION_TOTAL_TIME = 1500;
 const LOSE_ANIMATION_TOTAL_TIME = 1500;
 
-export default function GameTile({
+export default function SimonTile({
     index,
     colour,
     gameState,
@@ -19,8 +19,8 @@ export default function GameTile({
     colour: string;
     gameState: symbol;
     setGameState: Dispatch<SetStateAction<symbol>>;
-    gameData: GameData;
-    setGameData: Dispatch<SetStateAction<GameData>>;
+    gameData: SimonData;
+    setGameData: Dispatch<SetStateAction<SimonData>>;
 }) {
     const startAnimation = (win: boolean) => {
         const TIME_PER_UPDATE = 10;
@@ -34,7 +34,7 @@ export default function GameTile({
 
                 if (newData.animationTimeLeft <= 0) {
                     clearInterval(interval);
-                    setGameState(GameState.WaitingForStart);
+                    setGameState(SimonState.WaitingForStart);
 
                     if (win) {
                         if (newData.currentLevel > newData.bestLevel) {
@@ -65,14 +65,14 @@ export default function GameTile({
                     newData.userInputPattern
                 )
             ) {
-                setGameState(GameState.LoseAnimation);
+                setGameState(SimonState.LoseAnimation);
 
                 newData.animationTimeLeft = LOSE_ANIMATION_TOTAL_TIME;
                 startAnimation(false);
             } else if (
                 newData.userInputPattern.length == newData.pattern.length
             ) {
-                setGameState(GameState.WinAnimation);
+                setGameState(SimonState.WinAnimation);
 
                 newData.animationTimeLeft = WIN_ANIMATION_TOTAL_TIME;
                 startAnimation(true);
@@ -87,11 +87,11 @@ export default function GameTile({
             className={clsx(
                 styles.gameTile,
                 colour,
-                gameState == GameState.UserGuessing ? styles.clickable : ""
+                gameState == SimonState.UserGuessing ? styles.clickable : ""
             )}
-            onClick={gameState == GameState.UserGuessing ? userClick : () => {}}
+            onClick={gameState == SimonState.UserGuessing ? userClick : () => {}}
             style={
-                gameState != GameState.UserGuessing
+                gameState != SimonState.UserGuessing
                     ? {
                           filter: `brightness(${getBrightness(
                               index,
@@ -105,12 +105,12 @@ export default function GameTile({
     );
 }
 
-function getBrightness(index: number, gameState: symbol, gameData: GameData) {
+function getBrightness(index: number, gameState: symbol, gameData: SimonData) {
     switch (gameState) {
-        case GameState.WaitingForStart:
+        case SimonState.WaitingForStart:
             return 0.4;
 
-        case GameState.PlayingPattern:
+        case SimonState.PlayingPattern:
             if (gameData.patternIndex == null) {
                 console.log("Error: Playing pattern with null index.");
                 return 1;
@@ -121,10 +121,10 @@ function getBrightness(index: number, gameState: symbol, gameData: GameData) {
                 ? 1
                 : 0.4;
 
-        case GameState.UserGuessing:
+        case SimonState.UserGuessing:
             return 1; // Will be subdued in CSS.
 
-        case GameState.WinAnimation:
+        case SimonState.WinAnimation:
             const elapsed =
                 WIN_ANIMATION_TOTAL_TIME - gameData.animationTimeLeft;
             if (
@@ -137,7 +137,7 @@ function getBrightness(index: number, gameState: symbol, gameData: GameData) {
                 return 0.4;
             }
 
-        case GameState.LoseAnimation:
+        case SimonState.LoseAnimation:
             return (
                 1 -
                 (LOSE_ANIMATION_TOTAL_TIME - gameData.animationTimeLeft) /

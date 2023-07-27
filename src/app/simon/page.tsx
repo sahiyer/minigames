@@ -1,8 +1,8 @@
 "use client";
 
-import GameGrid from "@/components/simon/GameGrid";
-import { GameData } from "@/utility/simon/GameData";
-import { GameState } from "@/utility/simon/GameState";
+import SimonGrid from "@/components/simon/SimonGrid";
+import { SimonData } from "@/utility/simon/SimonData";
+import { SimonState } from "@/utility/simon/SimonState";
 import { useEffect, useState } from "react";
 
 const winStatuses = [
@@ -22,8 +22,8 @@ const loseStatuses = [
 ];
 
 export default function Simon() {
-    const [gameState, setGameState] = useState(GameState.WaitingForStart);
-    const [gameData, setGameData] = useState<GameData>({
+    const [gameState, setGameState] = useState(SimonState.WaitingForStart);
+    const [gameData, setGameData] = useState<SimonData>({
         currentLevel: 1,
         bestLevel: -1,
         statusIndex: 0,
@@ -46,7 +46,7 @@ export default function Simon() {
 
             if (oldData.patternIndex >= oldData.pattern.length - 1) {
                 clearInterval(interval);
-                setGameState(GameState.UserGuessing);
+                setGameState(SimonState.UserGuessing);
 
                 return {
                     ...oldData,
@@ -71,7 +71,7 @@ export default function Simon() {
     };
 
     const playPattern = () => {
-        setGameState(GameState.PlayingPattern);
+        setGameState(SimonState.PlayingPattern);
         setGameData((oldData) => ({
             ...oldData,
 
@@ -111,17 +111,17 @@ export default function Simon() {
 
             <button
                 onClick={playPattern}
-                disabled={gameState != GameState.WaitingForStart}
+                disabled={gameState != SimonState.WaitingForStart}
             >
                 Start
             </button>
 
-            <GameGrid
+            <SimonGrid
                 gameState={gameState}
                 setGameState={setGameState}
                 gameData={gameData}
                 setGameData={setGameData}
-            ></GameGrid>
+            ></SimonGrid>
         </>
     );
 }
@@ -132,21 +132,21 @@ export default function Simon() {
 const TIME_PATTERN_TILE_SHOWN = 300;
 const TIME_PATTERN_TILE_BLANK = 100;
 
-function getStatus(gameState: symbol, gameData: GameData) {
+function getStatus(gameState: symbol, gameData: SimonData) {
     switch (gameState) {
-        case GameState.WaitingForStart:
+        case SimonState.WaitingForStart:
             return `Level ${gameData.currentLevel} - Ready?`;
 
-        case GameState.PlayingPattern:
+        case SimonState.PlayingPattern:
             return `Level ${gameData.currentLevel} - Watch and learn!`;
 
-        case GameState.UserGuessing:
+        case SimonState.UserGuessing:
             return `Level ${gameData.currentLevel} - Your turn!`;
 
-        case GameState.WinAnimation:
+        case SimonState.WinAnimation:
             return winStatuses[gameData.statusIndex % winStatuses.length];
 
-        case GameState.LoseAnimation:
+        case SimonState.LoseAnimation:
             return loseStatuses[gameData.statusIndex % loseStatuses.length];
     }
 }

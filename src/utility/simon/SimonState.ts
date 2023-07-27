@@ -1,4 +1,4 @@
-export const GameState = {
+export const SimonState = {
     WaitingForStart: Symbol("Waiting for start"),
     PlayingPattern: Symbol("Playing pattern"),
     UserGuessing: Symbol("User guessing"),
