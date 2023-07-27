@@ -3,6 +3,7 @@
 import SimonGrid from "@/components/simon/SimonGrid";
 import { SimonData } from "@/utility/simon/SimonData";
 import { SimonState } from "@/utility/simon/SimonState";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const winStatuses = [
@@ -122,6 +123,10 @@ export default function Simon() {
                 gameData={gameData}
                 setGameData={setGameData}
             ></SimonGrid>
+
+            <Link href="/">
+                <button>{"<- Home"}</button>
+            </Link>
         </>
     );
 }
