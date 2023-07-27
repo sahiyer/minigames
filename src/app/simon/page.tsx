@@ -1,5 +1,6 @@
 "use client";
 
+import HomeButton from "@/components/HomeButton";
 import SimonGrid from "@/components/simon/SimonGrid";
 import { SimonData } from "@/utility/simon/SimonData";
 import { SimonState } from "@/utility/simon/SimonState";
@@ -124,9 +125,7 @@ export default function Simon() {
                 setGameData={setGameData}
             ></SimonGrid>
 
-            <Link href="/">
-                <button>{"<- Home"}</button>
-            </Link>
+            <HomeButton></HomeButton>
         </>
     );
 }
