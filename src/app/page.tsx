@@ -10,6 +10,9 @@ export default function Index() {
             <Link href="/simon">
                 <button>Simon</button>
             </Link>
+            <Link href="/slider">
+                <button>Slider</button>
+            </Link>
         </main>
     );
 }
