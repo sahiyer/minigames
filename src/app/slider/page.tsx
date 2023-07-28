@@ -60,18 +60,22 @@ export default function Slider() {
         switch (key) {
             case "ArrowUp":
                 slideUp(sliderData, setSliderData);
+                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
                 break;
 
             case "ArrowDown":
                 slideDown(sliderData, setSliderData);
+                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
                 break;
 
             case "ArrowLeft":
                 slideLeft(sliderData, setSliderData);
+                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
                 break;
 
             case "ArrowRight":
                 slideRight(sliderData, setSliderData);
+                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
                 break;
         }
     };
