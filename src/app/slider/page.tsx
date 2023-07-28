@@ -16,6 +16,7 @@ export default function Slider() {
         solvedNullTileCol: -1,
 
         showTargetCoordinates: false,
+        difficulty: "easy",
     });
 
     const resetGrid = () => {

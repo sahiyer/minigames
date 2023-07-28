@@ -7,4 +7,5 @@ export interface SliderData {
     solvedNullTileCol: number;
 
     showTargetCoordinates: boolean;
+    difficulty: string;
 }

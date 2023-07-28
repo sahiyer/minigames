@@ -1,6 +1,6 @@
 import { SliderData } from "@/utility/slider/SliderData";
 import styles from "./Options.module.scss";
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 export default function Options({
     sliderData,
@@ -16,6 +16,13 @@ export default function Options({
                 showTargetCoordinates: !oldData.showTargetCoordinates,
             };
         });
+    };
+
+    const onDifficultyChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSliderData((oldData) => ({
+            ...oldData,
+            difficulty: event.target.value,
+        }));
     };
 
     return (
@@ -39,8 +46,9 @@ export default function Options({
                         <input
                             type="radio"
                             name="difficulty"
+                            value="easy"
                             className={styles.checkbox}
-                            onChange={() => {}}
+                            onChange={onDifficultyChange}
                             checked
                         ></input>
                         Easy
@@ -52,8 +60,9 @@ export default function Options({
                         <input
                             type="radio"
                             name="difficulty"
+                            value="medium"
                             className={styles.checkbox}
-                            onChange={() => {}}
+                            onChange={onDifficultyChange}
                         ></input>
                         Medium
                     </label>
@@ -64,8 +73,9 @@ export default function Options({
                         <input
                             type="radio"
                             name="difficulty"
+                            value="hard"
                             className={styles.checkbox}
-                            onChange={() => {}}
+                            onChange={onDifficultyChange}
                         ></input>
                         Hard
                     </label>
