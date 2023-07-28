@@ -93,7 +93,10 @@ export default function Slider() {
 
             <button onClick={resetGrid}>Reset</button>
 
-            <SliderGrid sliderData={sliderData}></SliderGrid>
+            <SliderGrid
+                sliderData={sliderData}
+                setSliderData={setSliderData}
+            ></SliderGrid>
 
             <HomeButton></HomeButton>
         </>

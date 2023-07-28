@@ -2,9 +2,15 @@ import SliderTile from "./SliderTile";
 import styles from "./SliderGrid.module.scss";
 import { Tile } from "@/utility/slider/Tile";
 import { SliderData } from "@/utility/slider/SliderData";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 
-export default function SliderGrid({ sliderData }: { sliderData: SliderData }) {
+export default function SliderGrid({
+    sliderData,
+    setSliderData,
+}: {
+    sliderData: SliderData;
+    setSliderData: Dispatch<SetStateAction<SliderData>>;
+}) {
     return (
         <div className={styles.sliderGrid}>
             {sliderData.tiles.map(
@@ -22,6 +28,8 @@ export default function SliderGrid({ sliderData }: { sliderData: SliderData }) {
                                         {...tile}
                                         currentRow={rowIndex}
                                         currentCol={colIndex}
+                                        sliderData={sliderData}
+                                        setSliderData={setSliderData}
                                     ></SliderTile>
                                 );
                             })}
