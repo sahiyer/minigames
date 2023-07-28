@@ -22,9 +22,10 @@ export default function Options({
         <div className={styles.options}>
             <h1>Options</h1>
 
-            <label>
+            <label className={styles.checkboxLabel}>
                 <input
                     type="checkbox"
+                    className={styles.checkbox}
                     onChange={toggleShowTargetCoordinates}
                 ></input>
                 Show target coordinates
