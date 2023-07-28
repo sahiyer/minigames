@@ -9,12 +9,37 @@ import { useEffect, useState } from "react";
 export default function Slider() {
     const [sliderData, setSliderData] = useState<SliderData>({
         tiles: [],
+
+        nullTileRow: -1,
+        nullTileCol: -1,
     });
 
     const resetGrid = () => {
+        let nullTileRow = -1;
+        let nullTileCol = -1;
+        const tiles = generateTileGrid();
+
+        // Finds the null tile.
+        outer: for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                if (tiles[row][col] == null) {
+                    nullTileRow = row;
+                    nullTileCol = col;
+                    break outer;
+                }
+            }
+        }
+
+        if (nullTileRow == -1 || nullTileCol == -1) {
+            console.log("Error: Did not find a null tile.");
+            return;
+        }
+
         setSliderData((oldData) => ({
             ...oldData,
-            tiles: generateTileGrid(),
+            tiles,
+            nullTileRow,
+            nullTileCol,
         }));
     };
 
