@@ -5,6 +5,4 @@ export interface SliderData {
 
     solvedNullTileRow: number;
     solvedNullTileCol: number;
-    nullTileRow: number;
-    nullTileCol: number;
 }

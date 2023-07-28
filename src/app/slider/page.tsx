@@ -4,12 +4,6 @@ import HomeButton from "@/components/HomeButton";
 import SliderGrid from "@/components/slider/SliderGrid";
 import { SliderData } from "@/utility/slider/SliderData";
 import { generateTileGrid } from "@/utility/slider/Tile";
-import {
-    slideDown,
-    slideLeft,
-    slideRight,
-    slideUp,
-} from "@/utility/slider/sliding";
 import { useEffect, useState } from "react";
 
 export default function Slider() {
@@ -18,8 +12,6 @@ export default function Slider() {
 
         solvedNullTileRow: -1,
         solvedNullTileCol: -1,
-        nullTileRow: -1,
-        nullTileCol: -1,
     });
 
     const resetGrid = () => {
@@ -50,41 +42,11 @@ export default function Slider() {
 
             solvedNullTileRow: nullTileRow,
             solvedNullTileCol: nullTileCol,
-            nullTileRow,
-            nullTileCol,
         }));
     };
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-        const { key } = event;
-        switch (key) {
-            case "ArrowUp":
-                slideUp(sliderData, setSliderData);
-                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
-                break;
-
-            case "ArrowDown":
-                slideDown(sliderData, setSliderData);
-                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
-                break;
-
-            case "ArrowLeft":
-                slideLeft(sliderData, setSliderData);
-                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
-                break;
-
-            case "ArrowRight":
-                slideRight(sliderData, setSliderData);
-                event.preventDefault(); // Stops scrolling with arrow keys in the browser.
-                break;
-        }
-    };
-
     // Initial setup on mount.
-    useEffect(() => {
-        resetGrid();
-        window.addEventListener("keydown", handleKeyDown);
-    }, []);
+    useEffect(resetGrid, []);
 
     return (
         <>
