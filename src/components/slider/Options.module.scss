@@ -5,9 +5,30 @@
 
 .checkboxLabel {
     font-size: 1.1em;
-    margin-top: 1em;
+
+    display: inline-block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .checkbox {
     margin-right: 1em;
+}
+
+.difficultyGrid {
+    display: grid;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+
+    grid-template-columns: auto auto;
+}
+
+.difficultyLabel {
+    margin-top: auto;
+    margin-bottom: auto;
+    grid-column: 1;
+}
+
+.difficultyCheckboxes {
+    grid-column: 2;
 }
