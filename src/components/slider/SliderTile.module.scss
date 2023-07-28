@@ -1,0 +1,75 @@
+// TODO: Set image path via file upload.
+$imagePath: url(/react-logo.png);
+$tileSize: 15vh;
+
+.sliderTile {
+    background-image: $imagePath;
+    background-size: ($tileSize * 4) ($tileSize * 4);
+    width: $tileSize;
+    height: $tileSize;
+}
+
+// Tile (row, col).
+.tile_0_0 {
+    background-position: 0 0;
+}
+
+.tile_0_1 {
+    background-position: (-$tileSize) 0;
+}
+
+.tile_0_2 {
+    background-position: (-$tileSize * 2) 0;
+}
+
+.tile_0_3 {
+    background-position: (-$tileSize * 3) 0;
+}
+
+.tile_1_0 {
+    background-position: 0 (-$tileSize);
+}
+
+.tile_1_1 {
+    background-position: (-$tileSize) (-$tileSize);
+}
+
+.tile_1_2 {
+    background-position: (-$tileSize * 2) (-$tileSize);
+}
+
+.tile_1_3 {
+    background-position: (-$tileSize * 3) (-$tileSize);
+}
+
+.tile_2_0 {
+    background-position: 0 (-$tileSize * 2);
+}
+
+.tile_2_1 {
+    background-position: (-$tileSize) (-$tileSize * 2);
+}
+
+.tile_2_2 {
+    background-position: (-$tileSize * 2) (-$tileSize * 2);
+}
+
+.tile_2_3 {
+    background-position: (-$tileSize * 3) (-$tileSize * 2);
+}
+
+.tile_3_0 {
+    background-position: 0 (-$tileSize * 3);
+}
+
+.tile_3_1 {
+    background-position: (-$tileSize) (-$tileSize * 3);
+}
+
+.tile_3_2 {
+    background-position: (-$tileSize * 2) (-$tileSize * 3);
+}
+
+.tile_3_3 {
+    background-position: (-$tileSize * 3) (-$tileSize * 3);
+}
