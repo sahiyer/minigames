@@ -5,6 +5,8 @@ import SliderGrid from "@/components/slider/SliderGrid";
 import { SliderData } from "@/utility/slider/SliderData";
 import { generateTileGrid } from "@/utility/slider/Tile";
 import { useEffect, useState } from "react";
+import styles from "./slider.module.scss";
+import Options from "@/components/slider/Options";
 
 export default function Slider() {
     const [sliderData, setSliderData] = useState<SliderData>({
@@ -50,17 +52,25 @@ export default function Slider() {
 
     return (
         <>
-            <h1>Slider</h1>
-            <h3>Use the arrow keys to slide the pieces. Fix the image!</h3>
+            <div className={styles.pageLayout}>
+                <div className={styles.mainContent}>
+                    <h1>Slider</h1>
+                    <h3>
+                        Use the arrow keys to slide the pieces. Fix the image!
+                    </h3>
 
-            <button onClick={resetGrid}>Reset</button>
+                    <button onClick={resetGrid}>Reset</button>
 
-            <SliderGrid
-                sliderData={sliderData}
-                setSliderData={setSliderData}
-            ></SliderGrid>
+                    <SliderGrid
+                        sliderData={sliderData}
+                        setSliderData={setSliderData}
+                    ></SliderGrid>
 
-            <HomeButton></HomeButton>
+                    <HomeButton></HomeButton>
+                </div>
+
+                <Options></Options>
+            </div>
         </>
     );
 }

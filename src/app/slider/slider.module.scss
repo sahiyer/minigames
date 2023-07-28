@@ -1,0 +1,8 @@
+.pageLayout {
+    display: grid;
+    grid-template-columns: (16vh * 5) auto;
+}
+
+.mainContent {
+    grid-column: 1;
+}
