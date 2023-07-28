@@ -4,12 +4,20 @@ import HomeButton from "@/components/HomeButton";
 import SliderGrid from "@/components/slider/SliderGrid";
 import { SliderData } from "@/utility/slider/SliderData";
 import { generateTileGrid } from "@/utility/slider/Tile";
+import {
+    slideDown,
+    slideLeft,
+    slideRight,
+    slideUp,
+} from "@/utility/slider/sliding";
 import { useEffect, useState } from "react";
 
 export default function Slider() {
     const [sliderData, setSliderData] = useState<SliderData>({
         tiles: [],
 
+        solvedNullTileRow: -1,
+        solvedNullTileCol: -1,
         nullTileRow: -1,
         nullTileCol: -1,
     });
@@ -37,14 +45,42 @@ export default function Slider() {
 
         setSliderData((oldData) => ({
             ...oldData,
+
             tiles,
+
+            solvedNullTileRow: nullTileRow,
+            solvedNullTileCol: nullTileCol,
             nullTileRow,
             nullTileCol,
         }));
     };
 
-    // Initial call to resetGrid.
-    useEffect(resetGrid, []);
+    const handleKeyDown = (event: KeyboardEvent) => {
+        const { key } = event;
+        switch (key) {
+            case "ArrowUp":
+                slideUp(sliderData, setSliderData);
+                break;
+
+            case "ArrowDown":
+                slideDown(sliderData, setSliderData);
+                break;
+
+            case "ArrowLeft":
+                slideLeft(sliderData, setSliderData);
+                break;
+
+            case "ArrowRight":
+                slideRight(sliderData, setSliderData);
+                break;
+        }
+    };
+
+    // Initial setup on mount.
+    useEffect(() => {
+        resetGrid();
+        window.addEventListener("keydown", handleKeyDown);
+    }, []);
 
     return (
         <>

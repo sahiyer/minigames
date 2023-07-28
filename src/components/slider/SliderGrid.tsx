@@ -13,10 +13,12 @@ export default function SliderGrid({ sliderData }: { sliderData: SliderData }) {
                         <Fragment key={rowIndex}>
                             {row.map((tile: Tile | null, colIndex) => {
                                 return tile == null ? (
-                                    <Fragment key={colIndex}></Fragment>
+                                    <Fragment
+                                        key={`${sliderData.solvedNullTileRow} ${sliderData.solvedNullTileCol}`}
+                                    ></Fragment>
                                 ) : (
                                     <SliderTile
-                                        key={colIndex}
+                                        key={`${tile.solvedRow} ${tile.solvedCol}`}
                                         {...tile}
                                         currentRow={rowIndex}
                                         currentCol={colIndex}

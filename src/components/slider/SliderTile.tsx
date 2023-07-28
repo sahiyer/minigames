@@ -20,8 +20,8 @@ export default function SliderTile({
             )}
             style={{
                 // gridRow and gridColumn are 1-based.
-                gridRow: solvedRow + 1,
-                gridColumn: solvedCol + 1,
+                gridRow: currentRow + 1,
+                gridColumn: currentCol + 1,
             }}
         ></div>
     );
