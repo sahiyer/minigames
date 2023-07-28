@@ -9,6 +9,11 @@ $tileSize: 15vh;
     height: $tileSize;
 }
 
+.targetCoordinates {
+    color: white;
+    font-weight: bold;
+}
+
 // Tile (row, col).
 .tile_0_0 {
     background-position: 0 0;

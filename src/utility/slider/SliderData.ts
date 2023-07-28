@@ -5,4 +5,6 @@ export interface SliderData {
 
     solvedNullTileRow: number;
     solvedNullTileCol: number;
+
+    showTargetCoordinates: boolean;
 }

@@ -92,6 +92,14 @@ export default function SliderTile({
                 gridRow: currentRow + 1,
                 gridColumn: currentCol + 1,
             }}
-        ></div>
+        >
+            {sliderData.showTargetCoordinates ? (
+                <span
+                    className={styles.targetCoordinates}
+                >{`(${solvedRow}, ${solvedCol})`}</span>
+            ) : (
+                <></>
+            )}
+        </div>
     );
 }

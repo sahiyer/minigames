@@ -14,6 +14,8 @@ export default function Slider() {
 
         solvedNullTileRow: -1,
         solvedNullTileCol: -1,
+
+        showTargetCoordinates: false,
     });
 
     const resetGrid = () => {
@@ -69,7 +71,10 @@ export default function Slider() {
                     <HomeButton></HomeButton>
                 </div>
 
-                <Options></Options>
+                <Options
+                    sliderData={sliderData}
+                    setSliderData={setSliderData}
+                ></Options>
             </div>
         </>
     );
